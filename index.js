@@ -1,4 +1,8 @@
 import express from "express";
+import https from "https";
+import path from "path";
+import { fileURLToPath } from 'url';
+import fs from "fs";
 import bodyParser from "body-parser";
 import axios from "axios";
 import dotenv from "dotenv";
@@ -11,6 +15,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const sslServer = https.createServer(
+	{
+		key: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/privkey.pem"),
+		cert: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/fullchain.pem")
+	},
+	app
+);
 
 app.post("/", async (req, res) => {
 	//Validate API key
@@ -26,7 +40,7 @@ app.post("/", async (req, res) => {
 		};
 		try {
 			const response = await axios(config);
-			res.json(response);
+			res.json(response.data);
 		} catch (err) {
 			console.error(err);
 			const { message, code } = err;
@@ -37,4 +51,4 @@ app.post("/", async (req, res) => {
 	res.status(404).send("Failure to authenticate");
 });
 
-app.listen(process.env.PORT);
+sslServer.listen(process.env.PORT);
