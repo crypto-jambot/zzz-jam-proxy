@@ -1,7 +1,7 @@
 import express from "express";
 import https from "https";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import fs from "fs";
 import bodyParser from "body-parser";
 import axios from "axios";
@@ -19,36 +19,36 @@ app.use(cors());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const sslServer = https.createServer(
-	{
-		key: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/privkey.pem"),
-		cert: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/fullchain.pem")
-	},
-	app
+    {
+        key: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/privkey.pem"),
+        cert: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/fullchain.pem"),
+    },
+    app
 );
 
 app.post("/", async (req, res) => {
-	//Validate API key
-	if (req.headers["api-key"] === process.env.KEY) {
-		const data = JSON.stringify(req.body);
-		const config = {
-			method: "post",
-			url: process.env.HTTP,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: data,
-		};
-		try {
-			const response = await axios(config);
-			res.json(response.data);
-		} catch (err) {
-			console.error(err);
-			const { message, code } = err;
-			res.status(400).json({ message, code });
-		}
-		return;
-	}
-	res.status(404).send("Failure to authenticate");
+    //Validate API key
+    if (req.headers["api-key"] === process.env.KEY) {
+        const data = JSON.stringify(req.body);
+        const config = {
+            method: "post",
+            url: process.env.HTTP,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: data,
+        };
+        try {
+            const response = await axios(config);
+            res.json(response.data);
+        } catch (err) {
+            console.error(err);
+            const { message, code } = err;
+            res.status(400).json({ message, code });
+        }
+        return;
+    }
+    res.status(404).send("Failure to authenticate");
 });
 
 sslServer.listen(process.env.PORT);
