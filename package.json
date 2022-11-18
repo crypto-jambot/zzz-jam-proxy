@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon index.js",
-    "build": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
+    "dockerBuild": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
+    "getCerts": "mkdir certs && cp /etc/letsencrypt/live/rabbit.dev/privkey.pem certs/ && cp /etc/letsencrypt/live/rabbit.dev/fullchain.pem certs/",
+    "removeCerts": "rm -r certs",
+    "build": "npm run getCerts && npm run dockerBuild && npm run removeCerts",
     "run": "docker run -d -p 443:443 jam-proxy",
     "patch": "npm version patch --git-tag-version"
   },
