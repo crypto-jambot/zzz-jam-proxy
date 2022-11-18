@@ -16,8 +16,8 @@ app.use(cors());
 
 const sslServer = https.createServer(
     {
-        key: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/privkey.pem"),
-        cert: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/fullchain.pem"),
+        key: fs.readFileSync(process.env.CERT_PRIVATE_KEY_PATH),
+        cert: fs.readFileSync(process.env.CERT_PUBLIC_KEY_PATH),
     },
     app
 );
