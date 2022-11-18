@@ -2,10 +2,10 @@
   "name": "jam-proxy",
   "version": "1.0.5",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon index.js",
     "build": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
     "run": "docker run -d -p 443:443 jam-proxy",
     "patch": "npm version patch --git-tag-version"
