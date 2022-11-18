@@ -1,7 +1,5 @@
 import express from "express";
 import https from "https";
-import path from "path";
-import { fileURLToPath } from "url";
 import fs from "fs";
 import bodyParser from "body-parser";
 import axios from "axios";
@@ -16,8 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const sslServer = https.createServer(
     {
         key: fs.readFileSync("/etc/letsencrypt/live/rabbit.dev/privkey.pem"),
@@ -50,5 +46,9 @@ app.post("/", async (req, res) => {
     }
     res.status(404).send("Failure to authenticate");
 });
+
+app.get("/", async (req, res) => {
+    res.status(200).send("Nothing to see here...");
+})
 
 sslServer.listen(process.env.PORT);
