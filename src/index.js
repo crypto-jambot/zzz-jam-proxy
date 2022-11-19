@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import axios from "axios";
 import dotenv from "dotenv";
 import cors from "cors";
+import sha256 from "sha256";
 
 dotenv.config();
 
@@ -56,7 +57,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/auth", async (req, res) => {
-    if (req.headers["api-key"] === process.env.KEY) {
+    if (sha256(req.headers["api-key"]) === process.env.KEY_HASH) {
         res.status(200).json({ token: signJwt() });
         return;
     }
