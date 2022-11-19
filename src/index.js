@@ -57,7 +57,8 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/auth", async (req, res) => {
-    if (sha256(req.headers["api-key"]) === process.env.KEY_HASH) {
+    const key = req.headers["api-key"];
+    if (key && sha256(key) === process.env.KEY_HASH) {
         res.status(200).json({ token: signJwt() });
         return;
     }
