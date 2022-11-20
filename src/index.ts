@@ -6,8 +6,8 @@ import { defaultGetRouter } from "./routes/defaultGet";
 import { defaultPostRouter } from "./routes/defaultPost";
 import { authRoute } from "./routes/auth";
 import { getSslServer } from "./utils/sslServerUtil";
-dotenv.config();
 
+dotenv.config();
 const app = express();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
