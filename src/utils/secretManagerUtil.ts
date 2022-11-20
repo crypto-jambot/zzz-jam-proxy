@@ -14,7 +14,6 @@ export class SecretUtility {
                     name: `projects/${projectId}/secrets/${name}/versions/${secretVersion}`,
                 });
                 this.secret = version!.payload!.data;
-                // return version!.payload!.data;
             } catch (err) {
                 console.log(err);
             }
