@@ -1,49 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "jam-proxy",
-    "version": "1.1.1-0",
-    "description": "",
-    "main": "dist/index.js",
-    "scripts": {
-        "start": "node .",
-        "transpile": "tsc -p tsconfig.build.json",
-        "dev": "nodemon src/index.ts",
-        "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-        "dockerBuild": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
-        "getCredentials": "cp /home/jam/Desktop/source/blockchain/nodes/ethereum/mainnet/jam-sa.json src/",
-        "cleanUp": "rm -r dist/ && rm src/jam-sa.json",
-        "build": "npm run getCredentials && npm run transpile && npm run dockerBuild && npm run cleanUp",
-        "run": "docker run -d -p 443:443 jam-proxy",
-        "deploy": "npm run build && npm run run",
-        "patch": "npm version prepatch --git-tag-version"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@google-cloud/secret-manager": "^4.1.4",
-        "axios": "^1.1.3",
-        "body-parser": "^1.20.1",
-        "cors": "^2.8.5",
-        "dotenv": "^16.0.3",
-        "express": "^4.18.2",
-        "jsonwebtoken": "^8.5.1",
-        "node-fetch": "^2.6.7",
-        "sha256": "^0.2.0",
-        "uuid": "^9.0.0",
-        "web3": "^1.8.1"
-    },
-    "devDependencies": {
-        "@types/cors": "^2.8.12",
-        "@types/express": "^4.17.14",
-        "@types/jsonwebtoken": "^8.5.9",
-        "@types/sha256": "^0.2.0",
-        "nodemon": "^2.0.20",
-        "ts-node": "^10.9.1",
-        "tslint": "^6.1.3",
-        "typescript": "^4.9.3"
-    }
-=======
   "name": "jam-proxy",
   "version": "1.1.0",
   "description": "",
@@ -87,5 +42,4 @@
     "tslint": "^6.1.3",
     "typescript": "^4.9.3"
   }
->>>>>>> 79cde25 (Updates patch back in package.json)
 }
