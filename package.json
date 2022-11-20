@@ -5,15 +5,15 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node .",
-    "transpile": "tsc -p tsconfig.build.json",
     "dev": "nodemon src/index.ts",
+    "deploy": "npm run build && npm run run",
+    "build": "npm run getCredentials && npm run transpile && npm run dockerBuild && npm run cleanUp",
+    "transpile": "tsc -p tsconfig.build.json",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "dockerBuild": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
+    "run": "docker run -d -p 443:443 jam-proxy",
     "getCredentials": "cp /home/jam/Desktop/source/blockchain/nodes/ethereum/mainnet/jam-sa.json src/",
     "cleanUp": "rm -r dist/ && rm src/jam-sa.json",
-    "build": "npm run getCredentials && npm run transpile && npm run dockerBuild && npm run cleanUp",
-    "run": "docker run -d -p 443:443 jam-proxy",
-    "deploy": "npm run build && npm run run",
     "patch": "npm version patch --git-tag-version"
   },
   "keywords": [],
@@ -27,10 +27,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^2.6.7",
-    "sha256": "^0.2.0",
-    "uuid": "^9.0.0",
-    "web3": "^1.8.1"
+    "sha256": "^0.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

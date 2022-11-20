@@ -4,9 +4,6 @@ import { makeCall } from "../utils/requestUtil";
 export const defaultPostRouter = express.Router();
 
 defaultPostRouter.post("/", async (req, res) => {
-    // Validate API key
-
-    const data = JSON.stringify(req.body);
     const accessToken = req.headers["access-token"] as string;
     if (!accessToken) {
         res.status(400).send("Must include access-token header");
