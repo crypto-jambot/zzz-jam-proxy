@@ -10,6 +10,7 @@ export async function makeCall(accessToken: string, data: string) {
             Authorization: `Bearer ${accessToken}`,
         },
         data,
+        maxBodyLength: Infinity,
     };
     return new Promise<Response>(async (resolve, reject) => {
         try {
