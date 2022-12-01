@@ -12,8 +12,8 @@
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "dockerBuild": "docker build -f deployment-config/Dockerfile -t jam-proxy .",
     "run": "docker run -d -p 443:443 jam-proxy",
-    "getCredentials": "cp /home/jam/Desktop/source/blockchain/nodes/ethereum/mainnet/jam-sa.json src/",
-    "cleanUp": "rm -r dist/ && rm src/jam-sa.json",
+    "getCredentials": "cp /media/jam/Data/nodes/ethereum/mainnet/jam-sa.json src/",
+    "cleanUp": "rm src/jam-sa.json && rm -r dist/",
     "patch": "npm version patch --git-tag-version"
   },
   "keywords": [],
