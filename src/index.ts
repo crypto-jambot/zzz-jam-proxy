@@ -1,13 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
-import dotenv from "dotenv";
+import "dotenv/config";
 import cors from "cors";
 import { defaultGetRouter } from "./routes/defaultGet";
 import { defaultPostRouter } from "./routes/defaultPost";
 import { authRoute } from "./routes/auth";
 import { getSslServer } from "./utils/sslServerUtil";
 
-dotenv.config();
 const app = express();
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
