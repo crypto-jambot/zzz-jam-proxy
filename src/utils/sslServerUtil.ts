@@ -3,8 +3,7 @@ import { SecretUtil } from "@crypto-jambot/secret-manager-utils";
 import { Express } from "express";
 import httpProxy from "http-proxy";
 import * as process from "process";
-
-const keyFile = process.env.CREDENTIALS_PATH as string;
+import { CREDENTIALS as keyFile } from "../constant/constants";
 
 const domainPrivateKeyClient = new SecretUtil({
     keyFile,
