@@ -1,21 +1,26 @@
 import https from "https";
-import { SecretUtility } from "./secretManagerUtil";
+import { SecretUtil } from "@crypto-jambot/secret-manager-utils";
 import { Express } from "express";
 import httpProxy from "http-proxy";
+import * as process from "process";
 
-const domainPKClient = new SecretUtility();
-const domainPubClient = new SecretUtility();
+const keyFile = process.env.CREDENTIALS_PATH as string;
+
+const domainPrivateKeyClient = new SecretUtil({
+    keyFile,
+});
+const domainPublicKeyClient = new SecretUtil({
+    keyFile,
+});
 
 export const getSslServer = async (app: Express) => {
     const domainPrivateKey = await getKey(
-        domainPKClient,
-        process.env.DOMAIN_PK_KEY as string,
-        "latest"
+        domainPrivateKeyClient,
+        process.env.DOMAIN_PK_KEY as string
     );
     const domainPublicKey = await getKey(
-        domainPubClient,
-        process.env.DOMAIN_PUBK_KEY as string,
-        "latest"
+        domainPublicKeyClient,
+        process.env.DOMAIN_PUBK_KEY as string
     );
     if (!domainPrivateKey || !domainPublicKey) return;
 
@@ -35,17 +40,29 @@ export const getSslServer = async (app: Express) => {
     sslServer.on("upgrade", (req, socket, head) => {
         const accessToken = req.headers["access-token"];
         if (!accessToken) return;
-        req.headers["Authorization"] = `Bearer ${accessToken as string}`;
+        req.headers.Authorization = `Bearer ${accessToken as string}`;
         proxy.ws(req, socket, head);
     });
 
     return sslServer;
 };
 
-async function getKey(client: SecretUtility, key: string, version: string) {
-    try {
-        return await client.getSecret(key, version);
-    } catch (err) {
-        console.log(err);
-    }
+async function getKey(
+    client: SecretUtil,
+    key: string,
+    version?: string
+): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const value: string = (
+                await client.getSecret(key, version)
+            ).toString();
+            if (!value) {
+                return;
+            }
+            resolve(value);
+        } catch (err) {
+            reject(err);
+        }
+    });
 }
