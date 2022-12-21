@@ -5,9 +5,8 @@ import { SecretUtil } from "@crypto-jambot/secret-manager-utils";
 const besuPKClient = new SecretUtil({ keyFile });
 
 export async function signJwt() {
-    const privateKey = await besuPKClient.getSecret(
-        process.env.BESU_PK_KEY as string,
-        "latest"
+    const privateKey = await besuPKClient.getSecretPayload(
+        process.env.BESU_PK_KEY as string
     );
     if (!privateKey) return;
     const expiresIn = 60 * 60;

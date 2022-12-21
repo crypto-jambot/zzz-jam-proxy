@@ -13,12 +13,10 @@ const domainPublicKeyClient = new SecretUtil({
 });
 
 export const getSslServer = async (app: Express) => {
-    const domainPrivateKey = await getKey(
-        domainPrivateKeyClient,
+    const domainPrivateKey = await domainPrivateKeyClient.getSecretString(
         process.env.DOMAIN_PK_KEY as string
     );
-    const domainPublicKey = await getKey(
-        domainPublicKeyClient,
+    const domainPublicKey = await domainPublicKeyClient.getSecretString(
         process.env.DOMAIN_PUBK_KEY as string
     );
     if (!domainPrivateKey || !domainPublicKey) return;
@@ -45,23 +43,3 @@ export const getSslServer = async (app: Express) => {
 
     return sslServer;
 };
-
-async function getKey(
-    client: SecretUtil,
-    key: string,
-    version?: string
-): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const value: string = (
-                await client.getSecret(key, version)
-            ).toString();
-            if (!value) {
-                return;
-            }
-            resolve(value);
-        } catch (err) {
-            reject(err);
-        }
-    });
-}
