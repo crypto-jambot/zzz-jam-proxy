@@ -1,6 +1,6 @@
 import https from "https";
 import { SecretUtil } from "@crypto-jambot/secret-manager-utils";
-import { Express } from "express";
+import { Express, request } from "express";
 import httpProxy from "http-proxy";
 import * as process from "process";
 import { CREDENTIALS as keyFile } from "../constant/constants";
@@ -37,6 +37,8 @@ export const getSslServer = async (app: Express) => {
     sslServer.on("upgrade", (req, socket, head) => {
         const accessToken = req.headers["access-token"];
         if (!accessToken) return;
+        request.setTimeout(30 * 60 * 1000);
+        request.socket.setTimeout(30 * 60 * 1000);
         req.headers.Authorization = `Bearer ${accessToken as string}`;
         proxy.ws(req, socket, head);
     });
