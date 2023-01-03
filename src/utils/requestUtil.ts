@@ -12,7 +12,6 @@ export async function makeCall(accessToken: string, data: string) {
         },
         data,
         maxBodyLength: Infinity,
-        httpsAgent: new https.Agent({ keepAlive: true }),
     };
     return new Promise<Response>(async (resolve, reject) => {
         try {
