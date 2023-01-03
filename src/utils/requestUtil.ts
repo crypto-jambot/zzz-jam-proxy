@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { errorType } from "./types";
+import https from "https";
 
 export async function makeCall(accessToken: string, data: string) {
-    const config = {
+    const config: AxiosRequestConfig = {
         method: "post",
         url: process.env.HTTP,
         headers: {
@@ -11,6 +12,7 @@ export async function makeCall(accessToken: string, data: string) {
         },
         data,
         maxBodyLength: Infinity,
+        httpsAgent: new https.Agent({ keepAlive: true }),
     };
     return new Promise<Response>(async (resolve, reject) => {
         try {
