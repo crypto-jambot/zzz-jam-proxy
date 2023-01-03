@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon src/index.ts",
-    "deploy": "npm run build && npm run run",
+    "deploy": "npm run dockerKill && npm run build && npm run run",
     "build": "npm run getCredentials && npm run transpile && npm run dockerBuild && npm run cleanUp",
     "transpile": "tsc -p tsconfig.build.json",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
@@ -14,7 +14,8 @@
     "run": "docker run -d -p 443:443 jam-proxy",
     "getCredentials": "cp /media/jam/Data/nodes/ethereum/mainnet/jam-sa.json src/",
     "cleanUp": "rm src/jam-sa.json && rm -r dist/",
-    "patch": "npm version patch --git-tag-version"
+    "patch": "npm version patch --git-tag-version",
+    "dockerKill": "docker rm -f $(docker ps -q)"
   },
   "keywords": [],
   "author": "",
