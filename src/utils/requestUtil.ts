@@ -11,6 +11,7 @@ export async function makeCall(accessToken: string, data: string) {
             Authorization: `Bearer ${accessToken}`,
         },
         data,
+        httpsAgent: new https.Agent({ keepAlive: true }),
         maxBodyLength: Infinity,
     };
     return new Promise<Response>(async (resolve, reject) => {
